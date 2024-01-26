@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Page with Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <!-- Header with Title -->
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <h2>File Pro</h2>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Square Box with Input Type File -->
+        <div class="row m-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {{ form.as_p }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Table with 3 Columns -->
+    <div class="row m-3">
+        <div class="col-12">
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th width="30%" scope="col">Filename</th>
+                    <th scope="col">Result</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for receipt_file in receipt_files %}
+                    <tr>
+                        <td>{{ receipt_file.file.name }}</td>
+                        <!-- <td>{{ receipt_file.uploaded_at }}</td> -->
+                        <td><a class="listData" href="{{ receipt_file.converted_csv }}">Link</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Get all anchor tags with class "listData"
+    var anchorTags = document.querySelectorAll('.listData');
+
+    // Iterate over the anchor tags
+    anchorTags.forEach(function (anchorTag) {
+        // Get the current href attribute value
+        var currentHref = anchorTag.getAttribute('href');
+
+        // Replace "upload" with "media" in the href attribute
+        var newHref = window.location.origin + '/media/'+ currentHref;
+
+        // Update the href attribute with the new value
+        anchorTag.setAttribute('href', newHref);
+    });
+});
+</script>
+</body>
+</html>
